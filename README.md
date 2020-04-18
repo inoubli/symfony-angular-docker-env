@@ -2,9 +2,12 @@
 # Starter setup for Symfony 4 and Angular 6 Dockerized Project
 Docker compose for symfony + mysql + angular project
 
+
+
 ## **Presentation**
 
 This is a docker composed project that can be used to quickly start a SF4 Angular 6 Project.
+Cloned https://github.com/tzgued/Docker-PHP-Symfony-Angular project and customized it to my needs.
 PS:
 
  - The ports used in the [docker-compose.yml](https://github.com/tzgued/dockerPHP/blob/master/docker-compose.yml) maybe not the ones you would love to setup expecially the NGINX on port 81.
@@ -27,32 +30,48 @@ PS:
 
 Usage
 -----
-Run development environment
+Build and Run development environment
 ```bash
-$ docker-compose up
-```
-or run in background
-```bash
-$ docker-compose up -d
+$ docker-compose up --force-recreate --build
 ```
 To down environment
 ```bash
 $ docker-compose down
 ```
-Useful
-------
-Show all container
+Show your containers list
 ```bash
-$ docker-compose ps
+$ docker-compose ps -a
 ```
-Connect to container
+
+PHP service steps to do first time
+-----
+To run some commands in our PHP Service
 ```bash
-$ docker exec -it {container_name} bash
+$ docker-compose exec php bash
 ```
-Fix minor problem with docker images
+Navigate to your symfony project path
 ```bash
-$ docker-compose up --force-recreate
+$ cd /home/wwwroot/sf4
 ```
+You may need to install your vendors
+```bash
+$ composer install
+```
+
+Database configuration
+-----
+You can create the Mysql Database manually under Phpmyadmin: http://localhost:8080
+
+Make sure you set the same database name as in .env file
+
+I use Postman to insert some data to DB with http POST method:
+http://127.0.0.1:82/api/commande/post
+
+{
+	"ref":"newProject11event",
+	"date":"2014-08-26T22:37:37Z"
+}
+
 
 Hacks
 -----
@@ -66,8 +85,13 @@ For correct work with angular app you must fix `package.json`
 
 Access to projects
 ------------------
-Symfony: http://localhost:82
+Symfony: http://localhost:82/api/commande/list (SF api endpoint, you can test it from your browser)
 
 Angular: http://localhost:4200
 
 Phpmyadmin: http://localhost:8080
+
+For CORS issue, you can install CORS extension in your browser, and enable it so that you can test the project
+
+
+Enjoy your day =D
